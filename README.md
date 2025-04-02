@@ -12,5 +12,12 @@ if this returns something like 3.x.x you goo to go
 run in git bash:
 pip isntall flask 
 
-then
+then pick a directory and you want to run:
+git clone <repo url>
+
+then run:
+python app.py
+
+this will display a URL for you to search for 
+
 
