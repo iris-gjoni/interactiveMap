@@ -109,3 +109,11 @@ map.on('draw:created', function(e) {
     var layer = e.layer;
     drawnItems.addLayer(layer);  // Add drawn shape to the feature group
 });
+
+document.getElementById('show-lists').addEventListener('click', function() {
+    // Convert the Set of selected boundaries to an array and join into a comma-separated string
+    var selectedArray = Array.from(selectedBoundaries);
+    var selectedParam = encodeURIComponent(selectedArray.join(','));
+    // Open a new window with the selected boundaries passed as a query parameter
+    window.open('/boundaries_list?selected=' + selectedParam, '_blank');
+});

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Boundary Lists</title>
+</head>
+<body>
+    <h1>Selected Boundaries</h1>
+    <ul id="selected-list"></ul>
+    <h1>Unselected Boundaries</h1>
+    <ul id="unselected-list"></ul>
+    <script>
+        // Get selected boundaries from the URL query parameter
+        var urlParams = new URLSearchParams(window.location.search);
+        var selectedParam = urlParams.get('selected');
+        var selectedBoundaries = selectedParam ? selectedParam.split(',') : [];
+
+        // Fetch all boundary names from the server
+        fetch('/get_all_boundaries')
+            .then(response => response.json())
+            .then(allBoundaries => {
+                // Compute unselected boundaries by filtering out selected ones
+                var unselectedBoundaries = allBoundaries.filter(name => !selectedBoundaries.includes(name));
+
+                // Sort both lists alphabetically for better readability
+                selectedBoundaries.sort();
+                unselectedBoundaries.sort();
+
+                // Populate the selected boundaries list
+                var selectedList = document.getElementById('selected-list');
+                selectedBoundaries.forEach(name => {
+                    var li = document.createElement('li');
+                    li.textContent = name;
+                    selectedList.appendChild(li);
+                });
+
+                // Populate the unselected boundaries list
+                var unselectedList = document.getElementById('unselected-list');
+                unselectedBoundaries.forEach(name => {
+                    var li = document.createElement('li');
+                    li.textContent = name;
+                    unselectedList.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error fetching boundaries:', error));
+    </script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 import os
+import json
 
 app = Flask(__name__)
 
@@ -37,6 +38,21 @@ def save_selected_boundaries():
         for boundary in boundaries:
             f.write(boundary + '\n')
     return jsonify({'status': 'success'})
+
+
+@app.route('/boundaries_list')
+def boundaries_list():
+    return render_template('boundaries_list.html')
+
+# Route to get all boundary names from the GeoJSON file
+@app.route('/get_all_boundaries')
+def get_all_boundaries():
+    with open('static/National_Character_Areas_England.geojson', 'r') as f:
+        data = json.load(f)
+    # Extract boundary names from the GeoJSON features
+    all_boundaries = [feature['properties']['JCANAME'] for feature in data['features']]
+    return jsonify(all_boundaries)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
