@@ -12,7 +12,7 @@ if this returns something like 3.x.x you goo to go
 
 == step 2 ==
 run in git bash:
-pip isntall flask 
+pip install flask 
 
 == step 3 ==
 then pick a directory and you want to run:
